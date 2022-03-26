@@ -1,0 +1,13 @@
+opencv_traincascade -data B_Bishop -vec B_Bishop/B_Bishop.vec -bg neg_B_Bishop.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data B_King -vec B_King/B_King.vec -bg neg_B_King.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data B_Knight -vec B_Knight/B_Knight.vec -bg neg_B_Knight.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data B_Pawn -vec B_Pawn/B_Pawn.vec -bg neg_B_Pawn.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data B_Queen -vec B_Queen/B_Queen.vec -bg neg_B_Queen.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data B_Rook -vec B_Rook/B_Rook.vec -bg neg_B_Rook.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+
+opencv_traincascade -data W_Bishop -vec W_Bishop/W_Bishop.vec -bg neg_W_Bishop.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data W_King -vec W_King/W_King.vec -bg neg_W_King.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data W_Knight -vec W_Knight/W_Knight.vec -bg neg_W_Knight.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data W_Pawn -vec W_Pawn/W_Pawn.vec -bg neg_W_Pawn.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data W_Queen -vec W_Queen/W_Queen.vec -bg neg_W_Queen.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
+opencv_traincascade -data W_Rook -vec W_Rook/W_Rook.vec -bg neg_W_Rook.txt -numStages 20 -minHitRate 0.999 -maxFalseAlarmRate 0.5 -numPos 2 -numNeg 34 -w 100 -h 100 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
