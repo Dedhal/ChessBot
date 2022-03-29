@@ -43,10 +43,10 @@ def Pawn_move(board_state, team, x, y):
             move.append((x-2, y))
         #Take
         if(y+1 < 8):
-            if(board_state[x-1][y+1] != 0 and board_state[x-1][y+1]%2 == ennemy_team):
+            if(board_state[x-1][y+1] != 0 and board_state[x-1][y+1]%2 == WHITE):
                 move.append((x-1, y+1))
         if(y-1 >= 0):
-            if(board_state[x-1][y-1] != 0 and board_state[x-1][y-1]%2 == ennemy_team):
+            if(board_state[x-1][y-1] != 0 and board_state[x-1][y-1]%2 == WHITE):
                 move.append((x-1, y-1))
         #Push
         if(x-1 >= 0):
