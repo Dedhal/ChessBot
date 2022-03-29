@@ -1,6 +1,18 @@
 WHITE = 0
 BLACK = 1
 
+EIGHT_DIRECTION = [(1, 0), (1, 1), (0, 1), (-1, 1), (-1, 0), (-1, -1), (0, -1), (1, -1)]
+KNIGHT_DIRECTION = [(2, 1), (2, -1), (1, 2), (-1, 2), (-2, 1), (-2, -1), (1, -2), (-1, -2)]
+FOUR_MAIN_DIRECTION = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+FOUR_DIAG_DIRECTION = [(1, 1), (1, -1), (-1, 1), (-1, -1)]
+
+BISHOP = 0
+ROOK = 1
+QUEEN = 2
+
+KING = 3
+KNIGHT = 4
+
 #--------------------------- Def Pieces Moves -----------------------------#
 
 def Pawn_move(board_state, team, x, y):
@@ -40,579 +52,81 @@ def Pawn_move(board_state, team, x, y):
 
         return (x, y), move
 
-def Knight_move(board_state, team, x, y):
+def BRQ_move(board_state, piece, team, x, y):
 
     move = []
 
-    if(team == WHITE):
-        if(x+2 < 8):
-            if(y+1 < 8):
-                if(board_state[x+2][y+1]%2 == BLACK or board_state[x+2][y+1] == 0):
-                    move.append((x+2, y+1))
-        if(x+2 < 8):
-            if(y-1 >= 0):
-                if(board_state[x+2][y-1]%2 == BLACK or board_state[x+2][y-1] == 0):
-                    move.append((x+2, y-1))
-        if(x-2 >= 0):
-            if(y+1 < 8):
-                if(board_state[x-2][y+1]%2 == BLACK or board_state[x-2][y+1] == 0):
-                    move.append((x-2, y+1))
-        if(x-2 >= 0):
-            if(y-1 >= 0):
-                if(board_state[x-2][y-1]%2 == BLACK or board_state[x-2][y-1] == 0):
-                    move.append((x-2, y-1))
-        if(x+1 < 8):
-            if(y+2 < 8):
-                if(board_state[x+1][y+2]%2 == BLACK or board_state[x+1][y+2] == 0):
-                    move.append((x+1, y+2))
-        if(x+1 < 8):
-            if(y-2 >= 0):
-                if(board_state[x+1][y-2]%2 == BLACK or board_state[x+1][y-2] == 0):
-                    move.append((x+1, y-2))
-        if(x-1 >= 0):
-            if(y+2 < 8):
-                if(board_state[x-1][y+2]%2 == BLACK or board_state[x-1][y+2] == 0):
-                    move.append((x-1, y+2))
-        if(x-1 >= 0):
-            if(y-2 >= 0):
-                if(board_state[x-1][y-2]%2 == BLACK or board_state[x-1][y-2] == 0):
-                    move.append((x-1, y-2))
+    if(piece == BISHOP):
+        loop = FOUR_DIAG_DIRECTION
+    elif(piece == ROOK):
+        loop = FOUR_MAIN_DIRECTION
+    elif(piece == QUEEN):
+        loop = EIGHT_MAIN_DIRECTION
 
-    if(team == BLACK):
-        if(x+2 < 8):
-            if(y+1 < 8):
-                if(board_state[x+2][y+1]%2 == WHITE):
-                    move.append((x+2, y+1))
-        if(x+2 < 8):
-            if(y-1 >= 0):
-                if(board_state[x+2][y-1]%2 == WHITE):
-                    move.append((x+2, y-1))
-        if(x-2 >= 0):
-            if(y+1 < 8):
-                if(board_state[x-2][y+1]%2 == WHITE):
-                    move.append((x-2, y+1))
-        if(x-2 >= 0):
-            if(y-1 >= 0):
-                if(board_state[x-2][y-1]%2 == WHITE):
-                    move.append((x-2, y-1))
-        if(x+1 < 8):
-            if(y+2 < 8):
-                if(board_state[x+1][y+2]%2 == WHITE):
-                    move.append((x+1, y+2))
-        if(x+1 < 8):
-            if(y-2 >= 0):
-                if(board_state[x+1][y-2]%2 == WHITE):
-                    move.append((x+1, y-2))
-        if(x-1 >= 0):
-            if(y+2 < 8):
-                if(board_state[x-1][y+2]%2 == WHITE):
-                    move.append((x-1, y+2))
-        if(x-1 >= 0):
-            if(y-2 >= 0):
-                if(board_state[x-1][y-2]%2 == WHITE):
-                    move.append((x-1, y-2))
+    for index, direction in enumerate(loop):
+        if(team == WHITE):
+            for i in range(8):
+                if(x+direction[0]*i < 8):
+                    if(x+direction[0]*i >= 0):
+                        if(y+direction[1]*i < 8):
+                            if(y+direction[1]*i >= 0):
+                                if(board_state[x+direction[0]*i][y+direction[1]*i]%2 == BLACK):
+                                    move.append((x+direction[0]*i, y+direction[1]*i))
+                                    break
+                                elif(board_state[x+direction[0]*i][y+direction[1]*i] == 0):
+                                    move.append((x+direction[0]*i, y+direction[1]*i))
+                            else:
+                                continue
+                        else:
+                            continue
+                    else:
+                        continue
+                else:
+                    continue
+
+        if(team == BLACK):
+            for i in range(8):
+                if(x+direction[0]*i < 8):
+                    if(x+direction[0]*i >= 0):
+                        if(y+direction[1]*i < 8):
+                            if(y+direction[1]*i >= 0):
+                                if(board_state[x+direction[0]*i][y+direction[1]*i]%2 == WHITE and board_state[x+direction[0]*i][y+direction[1]*i] != 0):
+                                    move.append((x+direction[0]*i, y+direction[1]*i))
+                                    break
+                                elif(board_state[x+direction[0]*i][y+direction[1]*i] == 0):
+                                    move.append((x+direction[0]*i, y+direction[1]*i))
+                            else:
+                                continue
+                        else:
+                            continue
+                    else:
+                        continue
+                else:
+                    continue
 
     return (x, y), move
 
-def Bishop_move(board_state, team, x, y):
+def KK_move(board_state, piece, team, x, y):
 
     move = []
 
-    if(team == WHITE):
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y+i]%2 == BLACK):
-                move.append((x+i, y+i))
-                break
-            elif(board_state[x+i][y+i] == 0):
-                move.append((x+i, y+i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y-i]%2 == BLACK):
-                move.append((x-i, y-i))
-                break
-            elif(board_state[x-i][y-i] == 0):
-                move.append((x-i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y-i]%2 == BLACK):
-                move.append((x+i, y-i))
-                break
-            elif(board_state[x+i][y-i] == 0):
-                move.append((x+i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y+i]%2 == BLACK):
-                move.append((x-i, y+i))
-                break
-            elif(board_state[x-i][y+i] == 0):
-                move.append((x-i, y+i))
-            else:
-                break
-
-    if(team == BLACK):
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y+i]%2 == WHITE and board_state[x+i][y+i] != 0):
-                move.append((x+i, y+i))
-                break
-            elif(board_state[x+i][y+i] == 0):
-                move.append((x+i, y+i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y-i]%2 == WHITE and board_state[x-i][y-i] != 0):
-                move.append((x-i, y-i))
-                break
-            elif(board_state[x-i][y-i] == 0):
-                move.append((x-i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y-i]%2 == WHITE and board_state[x+i][y-i] != 0):
-                move.append((x+i, y-i))
-                break
-            elif(board_state[x+i][y-i] == 0):
-                move.append((x+i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y+i]%2 == WHITE and board_state[x-i][y+i] != 0):
-                move.append((x-i, y+i))
-                break
-            elif(board_state[x-i][y+i] == 0):
-                move.append((x-i, y+i))
-            else:
-                break
-
-    return (x, y), move
-
-def Rook_move(board_state, team, x, y):
-
-    move = []
-
-    if(team == WHITE):
-        i = 0
-        while(True):
-            if(x+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y]%2 == BLACK):
-                move.append((x+i, y))
-                break
-            elif(board_state[x+i][y] == 0):
-                move.append((x+i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y+1]%2 == BLACK):
-                move.append((x, y+1))
-                break
-            elif(board_state[x][y+1] == 0):
-                move.append((x, y+1))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y]%2 == BLACK):
-                move.append((x-i, y))
-                break
-            elif(board_state[x-i][y] == 0):
-                move.append((x-i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y-i]%2 == BLACK):
-                move.append((x, y-i))
-                break
-            elif(board_state[x][y-i] == 0):
-                move.append((x, y-i))
-            else:
-                break
-
-    if(team == BLACK):
-        i = 0
-        while(True):
-            if(x+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y]%2 == WHITE and board_state[x+i][y] != 0):
-                move.append((x+i, y))
-                break
-            elif(board_state[x+i][y] == 0):
-                move.append((x+i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y+1]%2 == WHITE and board_state[x][y+i] != 0):
-                move.append((x, y+1))
-                break
-            elif(board_state[x][y+1] == 0):
-                move.append((x, y+1))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y]%2 == WHITE and board_state[x-i][y] != 0):
-                move.append((x-i, y))
-                break
-            elif(board_state[x-i][y] == 0):
-                move.append((x-i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y-i]%2 == WHITE and board_state[x][y-i] != 0):
-                move.append((x, y-i))
-                break
-            elif(board_state[x][y-i] == 0):
-                move.append((x, y-i))
-            else:
-                break
-
-    return (x, y), move
-
-def Queen_move(board_state, team, x, y):
-
-    move = []
-
-    if(team == WHITE):
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y+i]%2 == BLACK):
-                move.append((x+i, y+i))
-                break
-            elif(board_state[x+i][y+i] == 0):
-                move.append((x+i, y+i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y-i]%2 == BLACK):
-                move.append((x-i, y-i))
-                break
-            elif(board_state[x-i][y-i] == 0):
-                move.append((x-i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y-i]%2 == BLACK):
-                move.append((x+i, y-i))
-                break
-            elif(board_state[x+i][y-i] == 0):
-                move.append((x+i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y+i]%2 == BLACK):
-                move.append((x-i, y+i))
-                break
-            elif(board_state[x-i][y+i] == 0):
-                move.append((x-i, y+i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y]%2 == BLACK):
-                move.append((x+i, y))
-                break
-            elif(board_state[x+i][y] == 0):
-                move.append((x+i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y+1]%2 == BLACK):
-                move.append((x, y+1))
-                break
-            elif(board_state[x][y+1] == 0):
-                move.append((x, y+1))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y]%2 == BLACK):
-                move.append((x-i, y))
-                break
-            elif(board_state[x-i][y] == 0):
-                move.append((x-i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y-i]%2 == BLACK):
-                move.append((x, y-i))
-                break
-            elif(board_state[x][y-i] == 0):
-                move.append((x, y-i))
-            else:
-                break
-
-    if(team == BLACK):
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y+i]%2 == WHITE and board_state[x+i][y+i] != 0):
-                move.append((x+i, y+i))
-                break
-            elif(board_state[x+i][y+i] == 0):
-                move.append((x+i, y+i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y-i]%2 == WHITE and board_state[x-i][y-i] != 0):
-                move.append((x-i, y-i))
-                break
-            elif(board_state[x-i][y-i] == 0):
-                move.append((x-i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x+i+1 < 8 and y-(i+1) >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y-i]%2 == WHITE and board_state[x+i][y-i] != 0):
-                move.append((x+i, y-i))
-                break
-            elif(board_state[x+i][y-i] == 0):
-                move.append((x+i, y-i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-(i+1) >= 0 and y+i+1 < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y+i]%2 == WHITE and board_state[x-i][y+i] != 0):
-                move.append((x-i, y+i))
-                break
-            elif(board_state[x-i][y+i] == 0):
-                move.append((x-i, y+i))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x+i][y]%2 == WHITE and board_state[x+i][y] != 0):
-                move.append((x+i, y))
-                break
-            elif(board_state[x+i][y] == 0):
-                move.append((x+i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y+i < 8):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y+1]%2 == WHITE and board_state[x][y+i] != 0):
-                move.append((x, y+1))
-                break
-            elif(board_state[x][y+1] == 0):
-                move.append((x, y+1))
-            else:
-                break
-
-        i = 0
-        while(True):
-            if(x-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x-i][y]%2 == WHITE and board_state[x-i][y] != 0):
-                move.append((x-i, y))
-                break
-            elif(board_state[x-i][y] == 0):
-                move.append((x-i, y))
-            else:
-                break
-        i = 0
-        while(True):
-            if(y-i >= 0):
-                i = i+1
-            else:
-                break
-
-            if(board_state[x][y-i]%2 == WHITE and board_state[x][y-i] != 0):
-                move.append((x, y-i))
-                break
-            elif(board_state[x][y-i] == 0):
-                move.append((x, y-i))
-            else:
-                break
-
-    return (x, y), move
-
-def King_move(board_state, team, x, y):
-
-    move = []
+    if(piece == KNIGHT):
+        loop = KNIGHT_DIRECTION
+    elif(piece == KING):
+        loop = KING_DIRECTION
+
+    for index, direction in enumerate(loop):
+        if(team == WHITE):
+            if(x+direction[0] < 8 and x+direction[0] >= 0):
+                if(y+direction[1] < 8 and y+direction[1] >=0):
+                    if(board_state[x+direction[0]][y+direction[1]]%2 == BLACK or board_state[x+direction[0]][y+direction[1]] == 0):
+                        move.append((x+direction[0], y+direction[1]))
+
+        if(team == BLACK):
+            if(x+direction[0] < 8 and x+direction[0] >= 0):
+                if(y+direction[1] < 8 and y+direction[1] >=0):
+                    if(board_state[x+direction[0]][y+direction[1]]%2 == WHITE):
+                        move.append((x+direction[0], y+direction[1]))
 
     return (x, y), move
 
