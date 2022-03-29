@@ -18,6 +18,7 @@ KNIGHT = 4
 def Pawn_move(board_state, team, x, y):
 
     move = []
+
     if(team == WHITE):
         #First Move
         if(x == 1 and board_state[x+1][y] == 0 and board_state[x+2][y] == 0):
@@ -40,10 +41,10 @@ def Pawn_move(board_state, team, x, y):
             move.append((x-2, y))
         #Take
         if(y+1 < 8):
-            if(board_state[x-1][y+1] != 0 and board_state[x-1][y+1]%2 == WHITE):
+            if(board_state[x-1][y+1] != 0 and board_state[x-1][y+1]%2 == ennemy_team):
                 move.append((x-1, y+1))
         if(y-1 >= 0):
-            if(board_state[x-1][y-1] != 0 and board_state[x-1][y-1]%2 == WHITE):
+            if(board_state[x-1][y-1] != 0 and board_state[x-1][y-1]%2 == ennemy_team):
                 move.append((x-1, y-1))
         #Push
         if(x-1 >= 0):
@@ -63,46 +64,30 @@ def BRQ_move(board_state, piece, team, x, y):
     elif(piece == QUEEN):
         loop = EIGHT_MAIN_DIRECTION
 
-    for index, direction in enumerate(loop):
-        if(team == WHITE):
-            for i in range(8):
-                if(x+direction[0]*i < 8):
-                    if(x+direction[0]*i >= 0):
-                        if(y+direction[1]*i < 8):
-                            if(y+direction[1]*i >= 0):
-                                if(board_state[x+direction[0]*i][y+direction[1]*i]%2 == BLACK):
-                                    move.append((x+direction[0]*i, y+direction[1]*i))
-                                    break
-                                elif(board_state[x+direction[0]*i][y+direction[1]*i] == 0):
-                                    move.append((x+direction[0]*i, y+direction[1]*i))
-                            else:
-                                continue
-                        else:
-                            continue
-                    else:
-                        continue
-                else:
-                    continue
+    if(team == WHITE):
+        ennemy_team = BLACK
+    elif(team == BLACK):
+        ennemy_team = WHITE
 
-        if(team == BLACK):
-            for i in range(8):
-                if(x+direction[0]*i < 8):
-                    if(x+direction[0]*i >= 0):
-                        if(y+direction[1]*i < 8):
-                            if(y+direction[1]*i >= 0):
-                                if(board_state[x+direction[0]*i][y+direction[1]*i]%2 == WHITE and board_state[x+direction[0]*i][y+direction[1]*i] != 0):
-                                    move.append((x+direction[0]*i, y+direction[1]*i))
-                                    break
-                                elif(board_state[x+direction[0]*i][y+direction[1]*i] == 0):
-                                    move.append((x+direction[0]*i, y+direction[1]*i))
-                            else:
-                                continue
+    for index, direction in enumerate(loop):
+        for i in range(8):
+            if(x+direction[0]*i < 8):
+                if(x+direction[0]*i >= 0):
+                    if(y+direction[1]*i < 8):
+                        if(y+direction[1]*i >= 0):
+                            if(board_state[x+direction[0]*i][y+direction[1]*i]%2 == ennemy_team and board_state[x+direction[0]*i][y+direction[1]*i] != 0):
+                                move.append((x+direction[0]*i, y+direction[1]*i))
+                                break
+                            elif(board_state[x+direction[0]*i][y+direction[1]*i] == 0):
+                                move.append((x+direction[0]*i, y+direction[1]*i))
                         else:
                             continue
                     else:
                         continue
                 else:
                     continue
+            else:
+                continue
 
     return (x, y), move
 
@@ -115,18 +100,16 @@ def KK_move(board_state, piece, team, x, y):
     elif(piece == KING):
         loop = KING_DIRECTION
 
-    for index, direction in enumerate(loop):
-        if(team == WHITE):
-            if(x+direction[0] < 8 and x+direction[0] >= 0):
-                if(y+direction[1] < 8 and y+direction[1] >=0):
-                    if(board_state[x+direction[0]][y+direction[1]]%2 == BLACK or board_state[x+direction[0]][y+direction[1]] == 0):
-                        move.append((x+direction[0], y+direction[1]))
+    if(team == WHITE):
+        ennemy_team = BLACK
+    elif(team == BLACK):
+        ennemy_team = WHITE
 
-        if(team == BLACK):
-            if(x+direction[0] < 8 and x+direction[0] >= 0):
-                if(y+direction[1] < 8 and y+direction[1] >=0):
-                    if(board_state[x+direction[0]][y+direction[1]]%2 == WHITE):
-                        move.append((x+direction[0], y+direction[1]))
+    for index, direction in enumerate(loop):
+        if(x+direction[0] < 8 and x+direction[0] >= 0):
+            if(y+direction[1] < 8 and y+direction[1] >=0):
+                if(board_state[x+direction[0]][y+direction[1]]%2 == ennemy_team or board_state[x+direction[0]][y+direction[1]] == 0):
+                    move.append((x+direction[0], y+direction[1]))
 
     return (x, y), move
 
