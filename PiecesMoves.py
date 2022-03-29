@@ -17,6 +17,8 @@ KNIGHT = 4
 
 def Pawn_move(board_state, team, x, y):
 
+    #TODO: Prise en passant
+
     move = []
 
     if(team == WHITE):
@@ -80,6 +82,8 @@ def BRQ_move(board_state, piece, team, x, y):
                                 break
                             elif(board_state[x+direction[0]*i][y+direction[1]*i] == 0):
                                 move.append((x+direction[0]*i, y+direction[1]*i))
+                            else:
+                                break
                         else:
                             continue
                     else:
