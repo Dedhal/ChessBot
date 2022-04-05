@@ -167,7 +167,7 @@ class Game:
                         if(not Is_in_check(Create_Board([x-1, y], x, y), team)):
                             move.append((x-1, y))
     
-        return (x, y), move
+        return move
     
     def Is_in_check(self, tmp_board_state, team):
     
@@ -308,10 +308,12 @@ class Game:
     
         action_list = []
     
-        for i in range(8):
-            for x in range(8):
-                if(self.board_state[i][x]!=0 and self.board_state[i][x]%2==team):
-                    action_list.append()
+        for x in range(8):
+            for y in range(8):
+                if(self.board_state[x][y]!=0 and self.board_state[x][y]%2==team):
+                    moves = Piece_move(team, x, y)
+                    for move in moves:
+                        action_board = Create_Board(move, x, y)
+                        action_list.append(action_board.copy())
     
         return action_list
-    
