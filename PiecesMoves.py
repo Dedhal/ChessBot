@@ -58,12 +58,14 @@ class Game:
             #ROC
             if(not self.KingHasMoved):
                 if(not self.ARookHasMoved):
-                    if(not Is_in_check(Create_Board([x, y-1], x, y), team) and not Is_in_check(Create_Board([x, y-2], x, y), team)):
-                        move.append((x, y-2))
+                    if(board_state[x][y-1] == 0 and board_state[x][y-2] == 0):
+                        if(not Is_in_check(Create_Board([x, y-1], x, y), team) and not Is_in_check(Create_Board([x, y-2], x, y), team)):
+                            move.append((x, y-2))
             if(not self.KingHasMoved):
                 if(not self.HRookHasMoved):
-                    if(not Is_in_check(Create_Board([x, y+1], x, y), team) and not Is_in_check(Create_Board([x, y+2], x, y), team)):
-                        move.append((x, y+2))
+                    if(board_state[x][y+1] == 0 and board_state[x][y+2] == 0):
+                        if(not Is_in_check(Create_Board([x, y+1], x, y), team) and not Is_in_check(Create_Board([x, y+2], x, y), team)):
+                            move.append((x, y+2))
         else:
             movement_type = PAWN
     
@@ -120,10 +122,12 @@ class Game:
                 if(x == 4):
                     if(y+1 < 8):
                         if(last_board_state[x+2][y+1] == B_PAWN_VALUE and last_board_state[x][y+1] == 0 and board_state[x+2][y+1] == 0 and board_state[x][y+1] == B_PAWN_VALUE):
-                            move.append((x+1, y+1))
+                            if(not Is_in_check(Create_Board([x+1, y+1], x, y), team)):
+                                move.append((x+1, y+1))
                     if(y-1 >= 0):
                         if(last_board_state[x+2][y-1] == B_PAWN_VALUE and last_board_state[x][y-1] == 0 and board_state[x+2][y-1] == 0 and board_state[x][y-1] == B_PAWN_VALUE):
-                            move.append((x+1, y-1))
+                            if(not Is_in_check(Create_Board([x+1, y-1], x, y), team)):
+                                move.append((x+1, y-1))
                 #Take
                 if(y+1 < 8):
                     if(board_state[x+1][y+1]%2 == BLACK):
