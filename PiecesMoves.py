@@ -152,10 +152,12 @@ class Game:
                 if(x == 3):
                     if(y+1 < 8):
                         if(last_board_state[x-2][y+1] == W_PAWN_VALUE and last_board_state[x][y+1] == 0 and board_state[x-2][y+1] == 0 and board_state[x][y+1] == W_PAWN_VALUE):
-                            move.append((x-1, y+1))
+                            if(not Is_in_check(Create_Board([x-1, y+1], x, y), team)):
+                                move.append((x-1, y+1))
                     if(y-1 >= 0):
                         if(last_board_state[x-2][y-1] == W_PAWN_VALUE and last_board_state[x][y-1] == 0 and board_state[x-2][y-1] == 0 and board_state[x][y-1] == W_PAWN_VALUE):
-                            move.append((x-1, y-1))
+                            if(not Is_in_check(Create_Board([x-1, y-1], x, y), team)):
+                                move.append((x-1, y-1))
                 #Take
                 if(y+1 < 8):
                     if(board_state[x-1][y+1] != 0 and board_state[x-1][y+1]%2 == WHITE):
