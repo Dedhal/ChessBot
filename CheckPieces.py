@@ -66,16 +66,16 @@ def Get_Team_Color(image):
     h, w = Line.shape[:-1]
 
     res = cv2.matchTemplate(image, Line, cv2.TM_CCOEFF_NORMED)
-    threshold = 0.9
+    threshold = 0.95
     loc = np.where(res >= threshold)
     for pt in zip(*loc[::-1]):  # Switch collumns and rows
         cv2.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 255, 255), 2)
     print(loc)
 
     if(loc[0] == 719):
-        return WHITE
+        return WHITE, image
     else:
-        return BLACK
+        return BLACK, image
 
 #---------------------------- Initialize Board ----------------------------#
 
@@ -99,6 +99,7 @@ def GetBoardState(original_image, team) :
     for i in range(12):
 
         res = cv2.matchTemplate(processed_img, MODELS[i], cv2.TM_CCOEFF_NORMED, mask = MASKS[i%6])
+
         if(i==5):
             threshold=0.85
         else:
@@ -107,16 +108,22 @@ def GetBoardState(original_image, team) :
         loc = np.where(res >= threshold)
 
         for pt in zip(*loc[::-1]):  # Switch collumns and rows
-            if(team == WHITE and i < 6):
-                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (255, 0, 0), 2)
-            elif(team == WHITE and i >= 6):
-                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-            elif(team == BLACK and i < 6):
-                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
-            else:
-                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (255, 0, 0), 2)
-            x, y = Get_Coordinates(pt, team)
-            board_state[x][y] = PIECES_VALUES[i]
+            for line in LINES:
+                if(pt[1]==line):
+                    for column in COLUMNS:
+                        if(pt[0]==column):
+                            if(team == WHITE and i < 6):
+                                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (255, 0, 0), 2)
+                            elif(team == WHITE and i >= 6):
+                                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+                            elif(team == BLACK and i < 6):
+                                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (0, 0, 255), 2)
+                            else:
+                                cv2.rectangle(processed_img, pt, (pt[0] + w, pt[1] + h), (255, 0, 0), 2)
+            
+                        
+                            x, y = Get_Coordinates(pt, team)
+                            board_state[x][y] = PIECES_VALUES[i]
 
     print(board_state)
 
