@@ -318,6 +318,8 @@ class Game:
     def Actions_List(self):
     
         action_list = []
+        piece_coordinates = []
+        target_coordinates = []
     
         for x in range(8):
             for y in range(8):
@@ -327,5 +329,8 @@ class Game:
                     for move in moves:
                         action_board = self.Create_Board(move, x, y).copy()
                         action_list.append(action_board)
+                        target_coordinates.append(move)
+                        piece_coordinates.append((x, y))
+
     
-        return action_list
+        return action_list, piece_coordinates, target_coordinates

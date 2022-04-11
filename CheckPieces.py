@@ -8,7 +8,7 @@ ROOK_MASK = cv2.imread('img/board_infos/masks/Rook_mask.png')
 QUEEN_MASK = cv2.imread('img/board_infos/masks/Queen_mask.png')
 KNIGHT_MASK = cv2.imread('img/board_infos/masks/Knight_mask.png')
 KING_MASK = cv2.imread('img/board_infos/masks/King_mask.png')
-BISHOP_MASK = cv2.imread('img/board_infos/masks/Bishop_mask2.png')
+BISHOP_MASK = cv2.imread('img/board_infos/masks/Bishop_mask.png')
 
 MASKS = [PAWN_MASK, ROOK_MASK, QUEEN_MASK, KNIGHT_MASK, KING_MASK, BISHOP_MASK]
 

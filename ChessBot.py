@@ -2,7 +2,7 @@ import numpy as np
 from PIL import ImageGrab
 import cv2
 import time
-from directkeys import ReleaseKey, PressKey, Mouse
+from directkeys import ReleaseKey, PressKey, Mouse, Make_move
 
 import CheckPieces as cp
 import PiecesMoves as pm
@@ -32,6 +32,9 @@ while(True):
             game.Set_Board_State(board_state)
 
         print(game.Actions_List())
+
+        Make_move(team, (6, 4), (4, 4))
+        break
 
         print('Loop time : {}s'.format(time.time()-last_time))
         last_time = time.time()

@@ -6,6 +6,7 @@
 import win32gui, win32api, win32con
 import ctypes
 import time
+import copy
 
 SendInput = ctypes.windll.user32.SendInput
 
@@ -15,6 +16,47 @@ W = 0x11
 A = 0x1E
 S = 0x1F
 D = 0x20
+
+LINES_W = [941, 838, 735, 632, 529, 426, 323, 220]
+COLUMNS_W = [437, 540, 643, 746, 849, 952, 1055, 1158]
+
+LINES_B = [220, 323, 426, 529, 632, 735, 838, 941]
+COLUMNS_B = [1158, 1055, 952, 849, 746, 643, 540, 437]
+
+WHITE = 0
+BLACK = 1
+
+def Make_move(team, actual_pos, end_pos):
+    mouse = Mouse()
+    if(team == WHITE):
+        mouse.click(pos=(COLUMNS_W[actual_pos[1]], LINES_W[actual_pos[0]]))
+        time.sleep(1)
+        mouse.click(pos=(COLUMNS_W[end_pos[1]], LINES_W[end_pos[0]]))
+
+    if(team == BLACK):
+        mouse.click(pos=(COLUMNS_B[actual_pos[1]], LINES_B[actual_pos[0]]))
+        time.sleep(1)
+        mouse.click(pos=(COLUMNS_B[end_pos[1]], LINES_B[end_pos[0]]))
+
+if __name__ == '__main__':
+    mouse = Mouse()
+    mouse.get_position()
+    mouse.move_mouse(437, 220)
+    time.sleep(1)
+    mouse.move_mouse(540, 323)
+    time.sleep(1)
+    mouse.move_mouse(643, 426)
+    time.sleep(1)
+    mouse.move_mouse(746, 529)
+    time.sleep(1)
+    mouse.move_mouse(849, 632)
+    time.sleep(1)
+    mouse.move_mouse(952, 735)
+    time.sleep(1)
+    mouse.move_mouse(1055, 838)
+    time.sleep(1)
+    mouse.move_mouse(1158, 941)
+
 
 # C struct redefinitions 
 PUL = ctypes.POINTER(ctypes.c_ulong)
@@ -81,7 +123,7 @@ class Mouse:
         """generate a mouse event"""
         x_calc = 65536 * x_pos / ctypes.windll.user32.GetSystemMetrics(self.SM_CXSCREEN) + 1
         y_calc = 65536 * y_pos / ctypes.windll.user32.GetSystemMetrics(self.SM_CYSCREEN) + 1
-        return ctypes.windll.user32.mouse_event(flags, x_calc, y_calc, data, extra_info)
+        return ctypes.windll.user32.mouse_event(flags, int(x_calc), int(y_calc), data, extra_info)
 
     def _get_button_value(self, button_name, button_up=False):
         """convert the name of the button into the corresponding value"""
@@ -106,7 +148,7 @@ class Mouse:
 
     def click(self, pos=(-1, -1), button_name= "left"):
         """Click at the specified placed"""
-        self.move_mouse(pos)
+        self.move_mouse(pos[0], pos[1])
         self._do_event(self._get_button_value(button_name, False)+self._get_button_value(button_name, True), 0, 0, 0, 0)
 
     def double_click (self, pos=(-1, -1), button_name="left"):
@@ -118,21 +160,3 @@ class Mouse:
         """get mouse position"""
         return win32api.GetCursorPos()
 
-if __name__ == '__main__':
-    mouse = Mouse()
-    mouse.get_position()
-    mouse.move_mouse(437, 220)
-    time.sleep(1)
-    mouse.move_mouse(540, 323)
-    time.sleep(1)
-    mouse.move_mouse(643, 426)
-    time.sleep(1)
-    mouse.move_mouse(746, 529)
-    time.sleep(1)
-    mouse.move_mouse(849, 632)
-    time.sleep(1)
-    mouse.move_mouse(952, 735)
-    time.sleep(1)
-    mouse.move_mouse(1055, 838)
-    time.sleep(1)
-    mouse.move_mouse(1158, 941)
