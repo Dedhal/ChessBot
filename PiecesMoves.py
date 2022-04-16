@@ -287,6 +287,12 @@ class Game:
                     move.append((x-1, y-1))
     
         return move
+
+    #TODO
+    def Is_Draw(self):
+        if(self.Actions_List() == None and not self.Is_In_Check(self.board_state)):
+            return True
+        
     
     def Create_Board(self, move, x, y):
     

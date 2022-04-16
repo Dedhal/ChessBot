@@ -28,6 +28,9 @@
     <Compile Include="directkeys.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ParallelEvaluator.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PiecesMoves.py">
       <SubType>Code</SubType>
     </Compile>
@@ -35,6 +38,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TestClassifiers.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="training.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

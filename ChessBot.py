@@ -14,9 +14,6 @@ while(True):
     last_time = time.time()
 
     screen = np.array(ImageGrab.grab(bbox=(350,165,1215,1020)))
-    
-
-    input("Appuyez sur entrer pour commencer")
 
     team, screen = cp.Initialize_Board(screen)
     print(team)
