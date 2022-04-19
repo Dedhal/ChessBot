@@ -28,7 +28,7 @@
     <Compile Include="directkeys.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ParallelEvaluator.py">
+    <Compile Include="TournamentEvaluator.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PiecesMoves.py">

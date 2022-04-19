@@ -179,8 +179,6 @@ class Game:
     
     def Is_in_check(self, tmp_board_state):
     
-        move = []
-    
         x, y = 0, 0
     
         for roi_x in range(8):
@@ -204,16 +202,14 @@ class Game:
                             if(y+direction[1]*i >= 0):
                                 if(self.team == WHITE):
                                     if(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == B_BISHOP_VALUE or tmp_board_state[x+direction[0]*i][y+direction[1]*i] == B_QUEEN_VALUE):
-                                        move.append((x+direction[0]*i, y+direction[1]*i))
-                                        break
+                                        return True
                                     elif(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == 0):
                                         continue
                                     else:
                                         break
                                 if(self.team == BLACK):
                                     if(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == W_BISHOP_VALUE or tmp_board_state[x+direction[0]*i][y+direction[1]*i] == W_QUEEN_VALUE):
-                                        move.append((x+direction[0]*i, y+direction[1]*i))
-                                        break
+                                        return True
                                     elif(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == 0):
                                         continue
                                     else:
@@ -236,16 +232,14 @@ class Game:
                             if(y+direction[1]*i >= 0):
                                 if(self.team == WHITE):
                                     if(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == B_ROOK_VALUE or tmp_board_state[x+direction[0]*i][y+direction[1]*i] == B_QUEEN_VALUE):
-                                        move.append((x+direction[0]*i, y+direction[1]*i))
-                                        break
+                                        return True
                                     elif(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == 0):
                                         continue
                                     else:
                                         break
                                 elif(self.team == BLACK):
                                     if(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == W_ROOK_VALUE or tmp_board_state[x+direction[0]*i][y+direction[1]*i] == W_QUEEN_VALUE):
-                                        move.append((x+direction[0]*i, y+direction[1]*i))
-                                        break
+                                        return True
                                     elif(tmp_board_state[x+direction[0]*i][y+direction[1]*i] == 0):
                                         continue
                                     else:
@@ -265,28 +259,28 @@ class Game:
                 if(y+direction[1] < 8 and y+direction[1] >=0):
                     if(self.team == WHITE):
                         if(tmp_board_state[x+direction[0]][y+direction[1]] == B_KNIGHT_VALUE):
-                            move.append((x+direction[0], y+direction[1]))
+                            return True
                     elif(self.team == BLACK):
                         if(tmp_board_state[x+direction[0]][y+direction[1]] == W_KNIGHT_VALUE):
-                            move.append((x+direction[0], y+direction[1]))
+                            return True
     
         if(self.team == WHITE):
             if(y+1 < 8):
                 if(tmp_board_state[x+1][y+1] == B_PAWN_VALUE):
-                    move.append((x+1, y+1))
+                    return True
             if(y-1 >= 0):
                 if(tmp_board_state[x+1][y-1]%2 == B_PAWN_VALUE):
-                    move.append((x+1, y-1))
+                    return True
     
         if(self.team == BLACK):
             if(y+1 < 8):
                 if(tmp_board_state[x-1][y+1] == W_PAWN_VALUE):
-                    move.append((x-1, y+1))
+                    return True
             if(y-1 >= 0):
                 if(tmp_board_state[x-1][y-1] == W_PAWN_VALUE):
-                    move.append((x-1, y-1))
+                    return True
     
-        return move
+        return False
 
     #TODO
     def Is_Draw(self):

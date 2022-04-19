@@ -3,6 +3,7 @@ import multiprocessing
 import os
 import pickle
 
+import TournamentEvaluator
 import PiecesMoves
 import neat
 #import visualize
@@ -13,7 +14,7 @@ runs_per_net = 3
 simulation_seconds = 60.0
 
 
-# Use the NN network phenotype and the discrete actuator force function.
+# Use the NN network phenotype
 def eval_genome(genome1, genome2, config):
     P1 = neat.nn.FeedForwardNetwork.create(genome1, config)
     P2 = neat.nn.FeedForwardNetwork.create(genome2, config)
@@ -50,27 +51,23 @@ def eval_genome(genome1, genome2, config):
             simP1.Set_Board_State(action)
             simP2.Set_Board_State(action)
 
-    fitnessesP1.append(fitnessP1)
-    fitnessesP2.append(fitnessP2)
-
-    # The genome's fitness is its worst performance across all runs.
-    return min(fitnessesP1), min(fitnessesP2)
+    # The genome's fitness
+    return fitnessP1, fitnessP2
 
 #Should not work properly
-def eval_genomes(genomes, config):
-    genome1_tab = []
-    genome2_tab = []
-    for genome_id1, genome1 in genomes:
-        for genome_id2, genome2 in genomes:
-            if(genome_id1 == genome_id2):
-                break
-            else:
-                genome1.fitness, genome2.fitness = eval_genome(genome1, genome2, config)
-                genome1_tab.append(genome1.fitness)
-                genome2_tab.append(genome2.fitness)
-    genome1.fitness = sum(genome1_tab)
-    genome2.fitness = sum(genome2_tab)
-
+#def eval_genomes(genomes, config):
+#    genome1_tab = []
+#    genome2_tab = []
+#    for genome_id1, genome1 in genomes:
+#        for genome_id2, genome2 in genomes:
+#            if(genome_id1 == genome_id2):
+#                break
+#            else:
+#                genome1.fitness, genome2.fitness = eval_genome(genome1, genome2, config)
+#                genome1_tab.append(genome1.fitness)
+#                genome2_tab.append(genome2.fitness)
+#    genome1.fitness = sum(genome1_tab)
+#    genome2.fitness = sum(genome2_tab)
 
 
 def run():
@@ -87,9 +84,15 @@ def run():
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
 
+    loosers = []
+
     #Approche problematique pour un tournoi
-    pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
-    winner = pop.run(pe.evaluate)
+    
+    while(len(winners) > 1):
+        pe = TournamentEvaluator.TournamentEvaluator(multiprocessing.cpu_count(), eval_genome)
+        # TODO: Run usage will lead to error
+        winner = pop.run(pe.evaluate)
+
 
     # Save the winner.
     with open('winner-feedforward', 'wb') as f:
