@@ -35,6 +35,10 @@ class Game:
         self.KingHasMoved = False
         self.ARookHasMoved = False
         self.HRookHasMoved = False
+        self.LastPawnMove = 0
+        self.NumMove = 0
+        self.LastCapture = 0
+        self.Repetition = 0
 
     #--------------------------- Def Pieces Moves -----------------------------#
     
@@ -286,6 +290,35 @@ class Game:
     def Is_Draw(self):
         if(self.Actions_List() == None and not self.Is_In_Check(self.board_state)):
             return True
+
+        powerful_piece_alive = False
+        for line in self.board_state:
+            for case in line:
+                if(case == B_ROOK_VALUE or case == W_ROOK_VALUE or case == B_QUEEN_VALUE or case == W_QUEEN_VALUE or case == B_PAWN_VALUE or case == W_PAWN_VALUE):
+                    powerful_piece_alive = True
+                    break
+                    
+            if(powerful_piece_alive):
+                break
+
+        white_minors = 0
+        black_minors = 0
+        if(not powerful_piece_alive):
+            for line in self.board_state:
+                for case in line:
+                    if(case == W_BISHOP_VALUE or case == W_KNIGHT_VALUE):
+                        white_minors = white_minors + 1
+                    if(case == B_BISHOP_VALUE or case == B_KNIGHT_VALUE):
+                        black_minors = black_minors + 1
+
+            if(white_minors < 2 and black_minors < 2):
+                return True
+
+        if(self.NumMove - 50 >= self.LastCapture and self.NumMove - 50 >= self.LastPawnMove):
+            return True
+
+        if(self.Repetition >= 3):
+            return True
         
     
     def Create_Board(self, move, x, y):
@@ -300,6 +333,37 @@ class Game:
         self.last_board_state = new_board_state.copy()
 
     def Set_Board_State(self, new_board_state):
+        self.NumMove = self.NumMove + 1
+
+        NumPieces = 0
+        for line in self.board_state:
+            for case in line:
+                if(case != 0):
+                    NumPieces = NumPieces + 1
+
+        New_NumPieces = 0
+        for line in new_board_state:
+            for case in line:
+                if(case != 0):
+                    New_NumPieces = New_NumPieces + 1
+
+        if(New_NumPieces != NumPieces):
+            self.LastCapture = self.NumMove
+
+        for i in range(8):
+            for j in range(8):
+                if((self.board_state[i][j] == W_PAWN_VALUE or self.board_state[i][j] == B_PAWN_VALUE) and new_board_state[i][j] == 0):
+                    self.LastPawnMove = self.NumMove
+                    break
+
+            if(self.LastPawnMove == self.NumMove):
+                break
+
+        if(self.last_board_state == new_board_state):
+            self.Repetition = self.Repetition + 1
+        else:
+            self.Repetition = 0
+
         self.Set_Last_Board_State(self.board_state)
         self.board_state = new_board_state.copy()
 
