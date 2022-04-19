@@ -376,6 +376,7 @@ class Game:
         self.Set_Last_Board_State(self.board_state)
         self.board_state = new_board_state.copy()
 
+    # TODO
     def ARookHasMoved(self):
         self.ARookHasMoved = True
 
@@ -384,6 +385,8 @@ class Game:
 
     def KingHasMoved(self):
         self.KingHasMoved = True
+
+    #___________________________#
 
     def Get_Board_State():
         return board_state

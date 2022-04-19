@@ -13,6 +13,7 @@ class TournamentEvaluator(object):
         self.pool.join()
         self.pool.terminate()
 
+    #TODO: integration of tournament steps (other rounds, until there is a winner)
     def evaluate(self, genomes, config):
         jobs = []
         genomes_half = len(genomes)/2
@@ -25,9 +26,11 @@ class TournamentEvaluator(object):
             jobs.append(self.pool.apply_async(self.eval_function, (pool_1[i], pool_2[i], config)))
 
         for job, (genome_id1, genome_1), (genome_id2, genome_2) in zip(jobs, pool_1, pool_2):
-            #Problematic part of the algorithm
-            #should be modified with neat.population.run() rules
-            genome_1.fitness, genome_2.fitness = job.get(timeout=self.timeout)
+
+            genome_1_fitness, genome_2_fitness = job.get(timeout=self.timeout)
+            genome_1.fitness = genome_1.fitness + genome_1_fitness
+            genome_2.fitness = genome_2.fitness + genome_2_fitness
+
             if(genome_1.fitness > genome_2.fitness):
                 winners.append(genome_1)
                 loosers.append(genome_2)
@@ -35,5 +38,4 @@ class TournamentEvaluator(object):
                 winners.append(genome_2)
                 loosers.append(genome_1)
 
-        return winners, loosers
 
