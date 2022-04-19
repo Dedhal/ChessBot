@@ -288,9 +288,11 @@ class Game:
 
     #TODO
     def Is_Draw(self):
+        # Pat
         if(self.Actions_List() == None and not self.Is_In_Check(self.board_state)):
             return True
 
+        # Manque de materiel
         powerful_piece_alive = False
         for line in self.board_state:
             for case in line:
@@ -314,9 +316,11 @@ class Game:
             if(white_minors < 2 and black_minors < 2):
                 return True
 
+        # Règle des 50 coups
         if(self.NumMove - 50 >= self.LastCapture and self.NumMove - 50 >= self.LastPawnMove):
             return True
 
+        # Répétition / échec perpetuel
         if(self.Repetition >= 3):
             return True
         
@@ -333,8 +337,10 @@ class Game:
         self.last_board_state = new_board_state.copy()
 
     def Set_Board_State(self, new_board_state):
+        # Counting moves
         self.NumMove = self.NumMove + 1
 
+        # Remembering when a piece was captured for the last time
         NumPieces = 0
         for line in self.board_state:
             for case in line:
@@ -350,6 +356,7 @@ class Game:
         if(New_NumPieces != NumPieces):
             self.LastCapture = self.NumMove
 
+        # Remembering last pawn move
         for i in range(8):
             for j in range(8):
                 if((self.board_state[i][j] == W_PAWN_VALUE or self.board_state[i][j] == B_PAWN_VALUE) and new_board_state[i][j] == 0):
@@ -359,11 +366,13 @@ class Game:
             if(self.LastPawnMove == self.NumMove):
                 break
 
+        # Counting Repetitions
         if(self.last_board_state == new_board_state):
             self.Repetition = self.Repetition + 1
         else:
             self.Repetition = 0
 
+        # Update Board
         self.Set_Last_Board_State(self.board_state)
         self.board_state = new_board_state.copy()
 
