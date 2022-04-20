@@ -17,12 +17,12 @@ class TournamentEvaluator(object):
     def evaluate(self, genomes, config):
         jobs = []
         genomes_half = len(genomes)/2
-        pool_1 = genomes[genomes_half:]
-        pool_2 = genomes[:genomes_half]
+        pool_1 = genomes[int(genomes_half):]
+        pool_2 = genomes[:int(genomes_half)]
         winners = []
         loosers = []
 
-        for i in range(genomes_half):
+        for i in range(int(genomes_half)):
             jobs.append(self.pool.apply_async(self.eval_function, (pool_1[i], pool_2[i], config)))
 
         for job, (genome_id1, genome_1), (genome_id2, genome_2) in zip(jobs, pool_1, pool_2):

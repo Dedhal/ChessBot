@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6bc2f9ee-70f3-411a-b953-306c9c8c0d59</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>ChessBot.py</StartupFile>
+    <StartupFile>training.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>

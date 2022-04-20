@@ -93,10 +93,9 @@ def run():
 
     #Approche problematique pour un tournoi
     
-    while(len(winners) > 1):
-        pe = TournamentEvaluator.TournamentEvaluator(multiprocessing.cpu_count(), eval_genome)
-        # TODO: Run usage will lead to error
-        winner = pop.run(pe.evaluate)
+    pe = TournamentEvaluator.TournamentEvaluator(multiprocessing.cpu_count(), eval_genome)
+    # TODO: Run usage will lead to error
+    winner = pop.run(pe.evaluate)
 
 
     # Save the winner.
