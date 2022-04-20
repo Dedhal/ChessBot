@@ -23,26 +23,31 @@ def eval_genome(genome1, genome2, config):
 
     fitnesses = []
 
+    fitnessP1 = 0.
+    fitnessP2 = 0.
+
     for runs in range(runs_per_net):
         simP1 = PiecesMoves.Game(new_board, PiecesMoves.WHITE)
         simP2 = PiecesMoves.Game(new_board, PiecesMoves.BLACK)
-
-        fitnessP1 = 0.0
-        fitnessP2 = 0.0
+        
         while True:
             if(turn == PiecesMoves.WHITE):
                 inputs, target, to_move = simP1.Actions_List
-                if(inputs == None):
-                    fitnessP1 = fitnessP1 - 10
-                    fitnessP2 = fitnessP2 + 10
+                if(inputs == None and simP1.Is_in_check()):
+                    fitnessP1 = fitnessP1 - 10.
+                    fitnessP2 = fitnessP2 + 10.
+                    break
+                if(simP1.Is_Draw()):
                     break
                 action = net.activate(inputs)
                 turn = PiecesMoves.BLACK
             if(turn == PiecesMoves.BLACK):
                 inputs, target, to_move = simP2.Actions_List
-                if(inputs == None):
-                    fitnessP2 = fitnessP2 - 10
-                    fitnessP1 = fitnessP1 + 10
+                if(inputs == None and simP2.Is_in_check()):
+                    fitnessP2 = fitnessP2 - 10.
+                    fitnessP1 = fitnessP1 + 10.
+                    break
+                if(simP2.Is_Draw()):
                     break
                 action = net.activate(inputs)
                 turn = PiecesMoves.WHITE
