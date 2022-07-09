@@ -269,10 +269,10 @@ class Game:
                             return True
     
         if(self.team == WHITE):
-            if(y+1 < 8):
+            if(y+1 < 8 and x+1 < 8):
                 if(tmp_board_state[x+1][y+1] == B_PAWN_VALUE):
                     return True
-            if(y-1 >= 0):
+            if(y-1 >= 0 and x+1 < 8):
                 if(tmp_board_state[x+1][y-1]%2 == B_PAWN_VALUE):
                     return True
     
@@ -367,7 +367,7 @@ class Game:
                 break
 
         # Counting Repetitions
-        if(self.last_board_state == new_board_state):
+        if(self.last_board_state.all() == new_board_state.all()):
             self.Repetition = self.Repetition + 1
         else:
             self.Repetition = 0

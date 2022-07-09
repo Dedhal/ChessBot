@@ -38,8 +38,13 @@ ENNEMY_COLOR = (0, 0, 255)
 WHITE = 0
 BLACK = 1
 
-LINES = [719, 617, 515, 413, 311, 209, 107, 5]
-COLUMNS = [49, 151, 253, 355, 457, 559, 661, 763]
+# Tour
+# LINES = [719, 617, 515, 413, 311, 209, 107, 5]
+#COLUMNS = [49, 151, 253, 355, 457, 559, 661, 763]
+
+# PC Portable
+LINES = [717, 615, 513, 411, 309, 207, 105, 3]
+COLUMNS = [40, 142, 244, 346, 448, 550, 652, 754]
 
 W_PAWN_VALUE = 2
 W_KNIGHT_VALUE = 4
@@ -66,13 +71,13 @@ def Get_Team_Color(image):
     h, w = Line.shape[:-1]
 
     res = cv2.matchTemplate(image, Line, cv2.TM_CCOEFF_NORMED)
-    threshold = 0.95
+    threshold = 0.90
     loc = np.where(res >= threshold)
     for pt in zip(*loc[::-1]):  # Switch collumns and rows
         cv2.rectangle(image, pt, (pt[0] + w, pt[1] + h), (0, 255, 255), 2)
     print(loc)
 
-    if(loc[0] == 719):
+    if(loc[0] == LINES[0]):
         return WHITE, image
     else:
         return BLACK, image

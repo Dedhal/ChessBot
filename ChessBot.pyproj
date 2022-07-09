@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>6bc2f9ee-70f3-411a-b953-306c9c8c0d59</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>training.py</StartupFile>
+    <StartupFile>ChessBot.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -28,6 +28,7 @@
     <Compile Include="directkeys.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Load_model.py" />
     <Compile Include="TournamentEvaluator.py">
       <SubType>Code</SubType>
     </Compile>
